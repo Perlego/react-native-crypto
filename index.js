@@ -9,3 +9,11 @@ export const encryptAES = (clearText, key, iv) => {
 export const decryptAES = (cipherText, key, iv) => {
   return Crypto.decrypt(cipherText, key, iv);
 };
+
+export const encodeBase64 = () => {
+  return Crypto.encodeBase64();
+};
+
+export const decodeBase64 = () => {
+  return Crypto.decodeBase64();
+};
