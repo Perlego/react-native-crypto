@@ -2,12 +2,12 @@ import { NativeModules } from 'react-native';
 
 const { Crypto } = NativeModules;
 
-export const encryptAES = (clearText, key, iv) => {
-  return Crypto.encrypt(clearText, key, iv);
+export const encryptAES256CBC = (clearText, key, iv) => {
+  return Crypto.encryptAES256CBC(clearText, key, iv);
 };
 
-export const decryptAES = (cipherText, key, iv) => {
-  return Crypto.decrypt(cipherText, key, iv);
+export const decryptAES256CBC = (cipherText, key, iv) => {
+  return Crypto.decryptAES256CBC(cipherText, key, iv);
 };
 
 export const encodeBase64 = () => {

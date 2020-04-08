@@ -31,7 +31,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(encrypt:(NSString *)data key:(NSString *)key iv:(NSString *)iv
+RCT_EXPORT_METHOD(encryptAES256CBC:(NSString *)data key:(NSString *)key iv:(NSString *)iv
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSData *textData = [data dataUsingEncoding:NSUTF8StringEncoding];
@@ -45,7 +45,7 @@ RCT_EXPORT_METHOD(encrypt:(NSString *)data key:(NSString *)key iv:(NSString *)iv
     }
 }
 
-RCT_EXPORT_METHOD(decrypt:(NSString *)base64 key:(NSString *)key iv:(NSString *)iv
+RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)base64 key:(NSString *)key iv:(NSString *)iv
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSData *textData = [[NSData alloc] initWithBase64EncodedString:base64 options:0];
