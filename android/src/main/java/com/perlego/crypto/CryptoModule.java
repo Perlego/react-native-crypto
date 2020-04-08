@@ -71,6 +71,6 @@ public class CryptoModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void decodeBase64(String base64, Promise promise) {
         byte[] data = Base64.decode(base64, Base64.NO_WRAP);
-        promise(new String(data));
+        promise.resolve(new String(data));
     }
 }
