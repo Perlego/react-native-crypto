@@ -6,9 +6,22 @@
 
 @implementation Crypto
 
++ (NSData *) fromHex: (NSString *)string {
+    NSMutableData *data = [[NSMutableData alloc] init];
+    unsigned char whole_byte;
+    char byte_chars[3] = {'\0','\0','\0'};
+    for (int i = 0; i < ([string length] / 2); i++) {
+        byte_chars[0] = [string characterAtIndex:i*2];
+        byte_chars[1] = [string characterAtIndex:i*2+1];
+        whole_byte = strtol(byte_chars, NULL, 16);
+        [data appendBytes:&whole_byte length:1];
+    }
+    return data;
+}
+
 + (NSData *) AES256CBC: (CCOperation)operation data: (NSData *)data key: (NSString *)key iv: (NSString *)iv {
     NSData *keyData = [key dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *ivData = [iv dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ivData = [self fromHex:iv];
     size_t numBytes = 0;
 
     NSMutableData * buffer = [[NSMutableData alloc] initWithLength:[data length] + kCCBlockSizeAES128];
@@ -45,12 +58,17 @@ RCT_EXPORT_METHOD(encryptAES256CBC:(NSString *)data key:(NSString *)key iv:(NSSt
     }
 }
 
-RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)base64 key:(NSString *)key iv:(NSString *)iv
+RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)cipherText key:(NSString *)key iv:(NSString *)iv base64:(BOOL)base64
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    NSData *textData = [[NSData alloc] initWithBase64EncodedString:base64 options:0];
+    NSData *textData = [Crypto fromHex:cipherText];
     NSData *result = [Crypto AES256CBC:kCCDecrypt data:textData key:key iv:iv];
-    NSString *data = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    NSString *data =[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+
+    if (base64) {
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:data options:0];
+        data = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    }
 
     if (data == nil) {
         reject(@"decrypt_fail", @"Decrypt failed", nil);
