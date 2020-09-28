@@ -174,18 +174,18 @@ static NSData *base64_decode(NSString *str){
 	if(!data || !privKey){
 		return nil;
 	}
-	SecKeyRef keyRef = [RSA addPrivateKey:privKey];
+	SecKeyRef keyRef = [Crypto addPrivateKey:privKey];
 
 	if(!keyRef){
 		return nil;
 	}
 
-	return [RSA decryptData:data withKeyRef:keyRef];
+	return [Crypto decryptData:data withKeyRef:keyRef];
 }
 
 + (NSString *)decryptString:(NSString *)str privateKey:(NSString *)privKey{
 	NSData *data = [[NSData alloc] initWithBase64EncodedString:str options:NSDataBase64DecodingIgnoreUnknownCharacters];
-	data = [RSA decryptData:data privateKey:privKey];
+	data = [Crypto decryptData:data privateKey:privKey];
 	NSString *ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	return ret;
 }
@@ -244,7 +244,7 @@ RCT_EXPORT_METHOD(decodeBase64:(NSString *)base64
 RCT_EXPORT_METHOD(decryptRSA:(NSString *)str privateKey:(NSString *)privKey
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    resolve([RSA decryptString:str privateKey:privKey]);
+    resolve([Crypto decryptString:str privateKey:privKey]);
 }
 
 @end
