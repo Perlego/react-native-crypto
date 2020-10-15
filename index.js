@@ -10,6 +10,10 @@ export const decryptAES256CBC = (cipherText, key, iv, base64) => {
   return Crypto.decryptAES256CBC(cipherText, key, iv, base64);
 };
 
+export const decryptRSA = (str, privateKey) => {
+  return Crypto.decryptRSA(str, privateKey);
+};
+
 export const encodeBase64 = (text) => {
   return Crypto.encodeBase64(text);
 };

@@ -1,5 +1,11 @@
 package com.perlego.crypto;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -58,6 +64,26 @@ public class CryptoModule extends ReactContextBaseJavaModule {
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
             byte[] decrypted = cipher.doFinal(Base64.decode(cipherText, Base64.NO_WRAP));
             promise.resolve(new String(decrypted));
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void decryptRSA(String str, String privateKey, Promise promise) {      
+        try {     
+            Cipher cipher = Cipher.getInstance("RSA/None/OAEPPadding");
+
+            privateKey = privateKey.replaceAll("\\n", "").replace("-----BEGIN RSA PRIVATE KEY-----", "").replace("-----END RSA PRIVATE KEY-----", "").replaceAll(" ", "");
+
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.decode(privateKey, Base64.NO_WRAP));
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            PrivateKey key = kf.generatePrivate(keySpec);
+
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] decryptedBytes = cipher.doFinal(Base64.decode(str, Base64.NO_WRAP));
+
+            promise.resolve(new String(decryptedBytes));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
