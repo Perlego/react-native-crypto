@@ -55,14 +55,17 @@ public class CryptoModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void decryptAES256CBC(String cipherText, String key, String iv, Promise promise) {
+    public void decryptAES256CBC(String cipherText, String key, String iv, Boolean base64, Promise promise) {
         try {
             IvParameterSpec ivSpec = new IvParameterSpec(Hex.decode(iv));
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), KEY_ALGORITHM);
 
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
-            byte[] decrypted = cipher.doFinal(Base64.decode(cipherText, Base64.NO_WRAP));
+            byte[] decrypted = cipher.doFinal(Hex.decode(cipherText));
+            if (base64) {
+                promise.resolve(Base64.encodeToString(decrypted, Base64.NO_WRAP));
+            }
             promise.resolve(new String(decrypted));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
