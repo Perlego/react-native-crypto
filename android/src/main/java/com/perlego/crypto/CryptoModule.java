@@ -25,7 +25,7 @@ public class CryptoModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
 
-    private static final String CIPHER_ALGORITHM = "AES_256/CBC/PKCS7Padding";
+    private static final String CIPHER_ALGORITHM = "AES_256/CBC/PKCS5Padding";
     private static final String KEY_ALGORITHM = "AES_256";
 
     public CryptoModule(ReactApplicationContext reactContext) {
@@ -63,10 +63,11 @@ public class CryptoModule extends ReactContextBaseJavaModule {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
             byte[] decrypted = cipher.doFinal(Hex.decode(cipherText));
+            String result = new String(decrypted);
             if (base64) {
-                promise.resolve(Base64.encodeToString(decrypted, Base64.NO_WRAP));
+                result = new String(Base64.decode(result, Base64.NO_WRAP));
             }
-            promise.resolve(new String(decrypted));
+            promise.resolve(result);
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
