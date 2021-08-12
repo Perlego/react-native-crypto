@@ -9,12 +9,12 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                   react-native-crypto
                    DESC
-  s.homepage     = "https://github.com/brian-perlego/react-native-crypto"
+  s.homepage     = "https://github.com/Perlego/react-native-crypto"
   s.license      = "MIT"
   # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.authors      = { "Brian" => "brian@perlego.com" }
+  s.authors      = { "Perlego" => "ios-devs@perlego.com" }
   s.platforms    = { :ios => "9.0" }
-  s.source       = { :git => "https://github.com/brian-perlego/react-native-crypto.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/Perlego/react-native-crypto.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true

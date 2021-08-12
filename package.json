@@ -1,23 +1,23 @@
 {
   "name": "react-native-crypto",
   "title": "React Native Crypto",
-  "version": "1.0.1",
-  "description": "TODO",
+  "version": "2.0.0",
+  "description": "Set of encryption function for Perlego",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brian-perlego/react-native-crypto.git",
-    "baseUrl": "https://github.com/brian-perlego/react-native-crypto"
+    "url": "git+https://github.com/Perlego/react-native-crypto.git",
+    "baseUrl": "https://github.com/Perlego/react-native-crypto"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Brian",
-    "email": "brian@perlego.com"
+    "name": "Perlego",
+    "email": "ios-devs@perlego.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",
@@ -26,7 +26,7 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "react": "16.13.1",
-    "react-native": "^0.62.2"
+    "react": "17.0.1",
+    "react-native": "0.64.2"
   }
 }

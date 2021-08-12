@@ -211,12 +211,13 @@ RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)cipherText key:(NSString *)key iv
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSData *textData = [Crypto fromHex:cipherText];
     NSData *result = [Crypto AES256CBC:kCCDecrypt data:textData key:key iv:iv];
-    NSString *data =[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		NSString *data;
 
-    if (base64) {
-        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:data options:0];
-        data = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    }
+		if (base64) {
+				data = [result base64EncodedStringWithOptions:0];
+    } else {
+				data = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		}
 
     if (data == nil) {
         reject(@"decrypt_fail", @"Decrypt failed", nil);

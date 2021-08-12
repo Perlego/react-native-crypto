@@ -63,9 +63,11 @@ public class CryptoModule extends ReactContextBaseJavaModule {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
             byte[] decrypted = cipher.doFinal(Hex.decode(cipherText));
-            String result = new String(decrypted);
+            String result;
             if (base64) {
-                result = new String(Base64.decode(result, Base64.NO_WRAP));
+                result = Base64.encodeToString(decrypted, Base64.NO_WRAP);
+            } else {
+                result = new String(decrypted);
             }
             promise.resolve(result);
         } catch (Exception e) {
