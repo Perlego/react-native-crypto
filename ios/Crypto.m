@@ -206,16 +206,21 @@ RCT_EXPORT_METHOD(encryptAES256CBC:(NSString *)data key:(NSString *)key iv:(NSSt
     }
 }
 
-RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)cipherText key:(NSString *)key iv:(NSString *)iv base64:(BOOL)base64
+RCT_EXPORT_METHOD(decryptAES256CBC:(NSString *)cipherText key:(NSString *)key iv:(NSString *)iv isImage:(BOOL)isImage decodeBase64:(BOOL)decodeBase64
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSData *textData = [Crypto fromHex:cipherText];
     NSData *result = [Crypto AES256CBC:kCCDecrypt data:textData key:key iv:iv];
 		NSString *data;
 
-		if (base64) {
+	  if (decodeBase64) {
+				data = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		    result = [[NSData alloc] initWithBase64EncodedString:data options:0];
+		}
+
+		if (isImage) {
 				data = [result base64EncodedStringWithOptions:0];
-    } else {
+		} else {
 				data = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 		}
 

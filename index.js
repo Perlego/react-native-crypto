@@ -6,8 +6,8 @@ export const encryptAES256CBC = (clearText, key, iv) => {
   return Crypto.encryptAES256CBC(clearText, key, iv);
 };
 
-export const decryptAES256CBC = (cipherText, key, iv, base64) => {
-  return Crypto.decryptAES256CBC(cipherText, key, iv, base64);
+export const decryptAES256CBC = (cipherText, key, iv, isImage = false, decodeBase64 = false) => {
+  return Crypto.decryptAES256CBC(cipherText, key, iv, isImage, decodeBase64);
 };
 
 export const decryptRSA = (str, privateKey) => {
