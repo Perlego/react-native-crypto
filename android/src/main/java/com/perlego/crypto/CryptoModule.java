@@ -65,8 +65,8 @@ public class CryptoModule extends ReactContextBaseJavaModule {
             byte[] decrypted = cipher.doFinal(Hex.decode(cipherText));
             String result;
             if (decodeBase64) {
-				result = [[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding];
-		        decrypted = [[NSData alloc] initWithBase64EncodedString:result options:0];
+				result = new String(decrypted);
+		        decrypted = Base64.decode(result, Base64.NO_WRAP);
             }
             if (isImage) {
                 result = Base64.encodeToString(decrypted, Base64.NO_WRAP);
